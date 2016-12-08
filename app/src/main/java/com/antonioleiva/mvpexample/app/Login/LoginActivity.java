@@ -35,8 +35,7 @@ public class LoginActivity extends Activity implements LoginView, View.OnClickLi
     private EditText password;
     private LoginPresenter presenter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -46,6 +45,11 @@ public class LoginActivity extends Activity implements LoginView, View.OnClickLi
         findViewById(R.id.button).setOnClickListener(this);
 
         presenter = new LoginPresenterImpl(this);
+    }
+
+    @Override protected void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
     }
 
     @Override public void showProgress() {

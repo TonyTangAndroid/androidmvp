@@ -20,7 +20,9 @@ package com.antonioleiva.mvpexample.app.main;
 
 public interface MainPresenter {
 
-    public void onResume();
+    void onResume();
 
-    public void onItemClicked(int position);
+    void onItemClicked(int position);
+
+    void onDestroy();
 }

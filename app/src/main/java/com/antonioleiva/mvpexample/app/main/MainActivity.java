@@ -39,15 +39,13 @@ public class MainActivity extends Activity implements MainView, AdapterView.OnIt
     private ProgressBar progressBar;
     private MainPresenter presenter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.list);
         listView.setOnItemClickListener(this);
         progressBar = (ProgressBar) findViewById(R.id.progress);
-        presenter = new MainPresenterImpl(this);
-
+        presenter = new MainPresenterImpl(this, new FindItemsInteractorImpl());
     }
 
     @Override protected void onResume() {
@@ -55,23 +53,23 @@ public class MainActivity extends Activity implements MainView, AdapterView.OnIt
         presenter.onResume();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+    }
+
+    @Override protected void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
     }
 
     @Override public void showProgress() {
@@ -85,7 +83,7 @@ public class MainActivity extends Activity implements MainView, AdapterView.OnIt
     }
 
     @Override public void setItems(List<String> items) {
-        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
+        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items));
     }
 
     @Override public void showMessage(String message) {

@@ -18,7 +18,13 @@
 
 package com.antonioleiva.mvpexample.app.main;
 
+import java.util.List;
+
 public interface FindItemsInteractor {
 
-    public void findItems(OnFinishedListener listener);
+    interface OnFinishedListener {
+        void onFinished(List<String> items);
+    }
+
+    void findItems(OnFinishedListener listener);
 }

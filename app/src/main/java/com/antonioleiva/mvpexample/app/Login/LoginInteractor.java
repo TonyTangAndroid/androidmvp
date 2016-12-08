@@ -19,5 +19,15 @@
 package com.antonioleiva.mvpexample.app.Login;
 
 public interface LoginInteractor {
-    public void login(String username, String password, OnLoginFinishedListener listener);
+
+    interface OnLoginFinishedListener {
+        void onUsernameError();
+
+        void onPasswordError();
+
+        void onSuccess();
+    }
+
+    void login(String username, String password, OnLoginFinishedListener listener);
+
 }
